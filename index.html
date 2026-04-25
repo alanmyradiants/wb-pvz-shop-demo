@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Магазин · Демо с выбором ПВЗ Wildberries</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --primary: #cb11ab;
+    --primary-dark: #a30d8a;
+    --bg: #f7f7fa;
+    --surface: #ffffff;
+    --text: #1a1a2e;
+    --text-muted: #6b6b80;
+    --border: #e5e5ec;
+    --success: #16a34a;
+    --warning: #d97706;
+    --shadow: 0 4px 20px rgba(0,0,0,0.06);
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+  }
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+  /* Загрузка стартовая */
+  .boot-loader {
+    position: fixed;
+    inset: 0;
+    background: var(--bg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    gap: 16px;
+  }
+  .boot-loader.hidden { display: none; }
+  .spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid var(--border);
+    border-top-color: var(--primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .boot-text { color: var(--text-muted); font-size: 15px; }
+  .boot-source {
+    margin-top: 24px;
+    padding: 10px 16px;
+    background: var(--surface);
+    border-radius: 8px;
+    font-size: 12px;
+    font-family: ui-monospace, monospace;
+    color: var(--text-muted);
+    max-width: 90%;
+    word-break: break-all;
+  }
+
+  /* Header */
+  header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .header-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .logo {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--primary);
+    letter-spacing: -0.5px;
+  }
+  .logo span { color: var(--text); }
+  .data-badge {
+    font-size: 11px;
+    background: #ecfdf5;
+    color: var(--success);
+    padding: 4px 8px;
+    border-radius: 6px;
+    margin-left: 10px;
+    font-weight: 600;
+  }
+  .data-badge.local { background: #fef3c7; color: var(--warning); }
+  .cart-btn {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background 0.2s;
+  }
+  .cart-btn:hover { background: var(--primary-dark); }
+  .cart-count {
+    background: white;
+    color: var(--primary);
+    border-radius: 999px;
+    min-width: 22px;
+    height: 22px;
+    padding: 0 6px;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+  }
+
+  /* Hero */
+  .hero { padding: 50px 20px 30px; text-align: center; }
+  .hero h1 {
+    font-size: 38px;
+    font-weight: 800;
+    letter-spacing: -1px;
+    margin-bottom: 12px;
+  }
+  .hero p { font-size: 17px; color: var(--text-muted); max-width: 540px; margin: 0 auto; }
+
+  /* Products */
+  .products {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 20px;
+    padding: 20px 0 60px;
+  }
+  .product {
+    background: var(--surface);
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: var(--shadow);
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: flex;
+    flex-direction: column;
+  }
+  .product:hover { transform: translateY(-4px); box-shadow: 0 8px 30px rgba(0,0,0,0.1); }
+  .product-image {
+    font-size: 80px;
+    text-align: center;
+    margin-bottom: 16px;
+    background: linear-gradient(135deg, #fce4ec 0%, #f3e5f5 100%);
+    border-radius: 12px;
+    padding: 30px 0;
+  }
+  .product-name { font-size: 17px; font-weight: 600; margin-bottom: 6px; }
+  .product-desc { font-size: 14px; color: var(--text-muted); margin-bottom: 16px; flex-grow: 1; }
+  .product-bottom { display: flex; justify-content: space-between; align-items: center; margin-top: auto; }
+  .product-price { font-size: 20px; font-weight: 700; }
+  .add-btn {
+    background: var(--text);
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: background 0.2s;
+  }
+  .add-btn:hover { background: var(--primary); }
+  .add-btn.added { background: var(--success); }
+
+  /* Modal */
+  .overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.5);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+    padding: 20px;
+  }
+  .overlay.show { display: flex; }
+  .modal {
+    background: var(--surface);
+    border-radius: 20px;
+    width: 100%;
+    max-width: 560px;
+    max-height: 90vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .modal-header {
+    padding: 24px 28px 16px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .modal-title { font-size: 20px; font-weight: 700; }
+  .modal-close {
+    background: none;
+    border: none;
+    font-size: 28px;
+    cursor: pointer;
+    color: var(--text-muted);
+    line-height: 1;
+    padding: 0 4px;
+  }
+  .modal-close:hover { color: var(--text); }
+  .modal-body { padding: 24px 28px; overflow-y: auto; flex-grow: 1; }
+  .modal-footer { padding: 20px 28px; border-top: 1px solid var(--border); background: #fafafc; }
+
+  /* Cart */
+  .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--border); }
+  .cart-item:last-child { border-bottom: none; }
+  .cart-item-info { display: flex; gap: 12px; align-items: center; }
+  .cart-item-emoji { font-size: 32px; }
+  .cart-item-name { font-weight: 500; font-size: 15px; }
+  .cart-item-controls { display: flex; align-items: center; gap: 12px; }
+  .qty-btn {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    width: 28px; height: 28px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 1;
+  }
+  .qty { font-weight: 600; min-width: 20px; text-align: center; }
+  .cart-empty { text-align: center; padding: 40px 0; color: var(--text-muted); }
+  .cart-total {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    font-size: 18px;
+    font-weight: 700;
+  }
+  .checkout-btn {
+    width: 100%;
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 14px;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .checkout-btn:hover { background: var(--primary-dark); }
+  .checkout-btn:disabled { background: #ccc; cursor: not-allowed; }
+
+  /* Form */
+  .form-group { margin-bottom: 18px; }
+  .form-group label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: var(--text-muted);
+  }
+  .form-group input,
+  .form-group select {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font-size: 15px;
+    font-family: inherit;
+    background: white;
+    color: var(--text);
+    transition: border-color 0.2s;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  .form-group select {
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3e%3cpath fill='%236b6b80' d='M6 8L0 0h12z'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    background-size: 12px 8px;
+    padding-right: 40px;
+    cursor: pointer;
+  }
+  .form-group input:focus,
+  .form-group select:focus {
+    outline: none;
+    border-color: var(--primary);
+  }
+  .form-group select:disabled {
+    background-color: #f5f5f7;
+    color: var(--text-muted);
+    cursor: not-allowed;
+  }
+  .form-hint { font-size: 12px; color: var(--text-muted); margin-top: 6px; }
+  .pvz-info {
+    margin-top: 8px;
+    padding: 10px 12px;
+    background: #f0f9ff;
+    border-radius: 8px;
+    font-size: 12px;
+    color: var(--text-muted);
+    font-family: ui-monospace, monospace;
+  }
+  .pvz-info b { color: var(--text); }
+
+  /* Success */
+  .success-screen { text-align: center; padding: 40px 20px; }
+  .success-screen .check {
+    font-size: 64px;
+    color: var(--success);
+    margin-bottom: 20px;
+  }
+  .success-screen h2 { font-size: 24px; margin-bottom: 12px; }
+  .success-screen p { color: var(--text-muted); margin-bottom: 8px; }
+  .success-summary {
+    background: var(--bg);
+    padding: 20px;
+    border-radius: 12px;
+    margin: 24px 0;
+    text-align: left;
+  }
+  .summary-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    font-size: 14px;
+    gap: 16px;
+  }
+  .summary-row strong { font-weight: 600; text-align: right; }
+
+  @media (max-width: 600px) {
+    .hero h1 { font-size: 30px; }
+    .modal-header, .modal-body, .modal-footer { padding-left: 20px; padding-right: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Стартовая загрузка данных ПВЗ -->
+<div class="boot-loader" id="bootLoader">
+  <div class="spinner"></div>
+  <div class="boot-text" id="bootText">Загружаю базу ПВЗ Wildberries…</div>
+  <div class="boot-source">https://static-basket-01.wb.ru/vol0/data/all-poo-fr-v8.json</div>
+</div>
+
+<header>
+  <div class="header-inner">
+    <div>
+      <span class="logo">Маркет<span>.демо</span></span>
+      <span class="data-badge" id="dataBadge">данные WB</span>
+    </div>
+    <button class="cart-btn" id="cartBtn">🛒 Корзина <span class="cart-count" id="cartCount">0</span></button>
+  </div>
+</header>
+
+<div class="container">
+  <section class="hero">
+    <h1>Закажи и забери в ПВЗ Wildberries</h1>
+    <p>Выберите товар, оформите заказ и заберите в любом из 32 000+ пунктов выдачи Wildberries по всей России</p>
+  </section>
+
+  <section class="products" id="productsGrid"></section>
+</div>
+
+<!-- Корзина -->
+<div class="overlay" id="cartOverlay">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Ваша корзина</div>
+      <button class="modal-close" data-close>&times;</button>
+    </div>
+    <div class="modal-body" id="cartBody"></div>
+    <div class="modal-footer" id="cartFooter"></div>
+  </div>
+</div>
+
+<!-- Оформление -->
+<div class="overlay" id="checkoutOverlay">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Оформление заказа</div>
+      <button class="modal-close" data-close>&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Имя получателя</label>
+        <input type="text" id="recipientName" placeholder="Иван Петров">
+      </div>
+      <div class="form-group">
+        <label>Телефон</label>
+        <input type="tel" id="recipientPhone" placeholder="+7 ___ ___ __ __">
+      </div>
+      <div class="form-group">
+        <label>Город</label>
+        <input type="text" id="cityInput" list="citiesList" placeholder="Например, Москва" autocomplete="off">
+        <datalist id="citiesList"></datalist>
+        <div class="form-hint">Начните вводить — появится подсказка</div>
+      </div>
+      <div class="form-group">
+        <label>Пункт выдачи Wildberries</label>
+        <select id="pvzSelect" disabled>
+          <option value="">Сначала выберите город</option>
+        </select>
+        <div class="pvz-info" id="pvzInfo" style="display:none;"></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="checkout-btn" id="placeOrderBtn" disabled>Оформить заказ</button>
+    </div>
+  </div>
+</div>
+
+<!-- Успех -->
+<div class="overlay" id="successOverlay">
+  <div class="modal">
+    <div class="modal-body success-screen" id="successBody"></div>
+  </div>
+</div>
+
+<script>
+// === Каталог товаров ===
+const products = [
+  { id: 1, name: 'Футболка хлопок', desc: 'Базовая футболка из 100% хлопка', price: 1990, emoji: '👕' },
+  { id: 2, name: 'Кружка керамика', desc: 'Объём 350 мл, дизайн на выбор', price: 690, emoji: '☕' },
+  { id: 3, name: 'Блокнот А5', desc: 'Твёрдая обложка, 120 страниц', price: 450, emoji: '📓' },
+  { id: 4, name: 'Сумка-шоппер', desc: 'Эко-материал, ручки усиленные', price: 1290, emoji: '🛍️' },
+  { id: 5, name: 'Кепка снэпбэк', desc: 'Регулируемая застёжка', price: 1190, emoji: '🧢' },
+  { id: 6, name: 'Стикерпак', desc: '20 виниловых стикеров', price: 290, emoji: '🎨' },
+];
+
+// === Состояние ===
+const state = {
+  cart: {},
+  cityIndex: {},   // {cityName: [points]}
+  cityList: [],    // [{name, count}] отсортированный
+  selectedPvz: null,
+  selectedCity: null,
+};
+
+const WB_URL = 'https://static-basket-01.wb.ru/vol0/data/all-poo-fr-v8.json';
+const COUNTRY = 'ru';
+
+// === Парсинг адреса для извлечения города ===
+function extractCity(address) {
+  if (!address) return null;
+  const parts = address.split(',').map(s => s.trim());
+  if (parts.length < 2) return null;
+  // Москва/СПб/Севастополь часто идут первым элементом
+  const fed = parts[0].replace(/^г\.\s*/, '');
+  if (['Москва', 'Санкт-Петербург', 'Севастополь'].includes(fed)) return fed;
+  // Иначе — второй элемент, чистим префикс "г."
+  return parts[1].replace(/^(г\.|город\s+|г\s+)/i, '').trim();
+}
+
+function buildIndex(items) {
+  const idx = {};
+  for (const it of items) {
+    if (!it.address || !it.coordinates) continue;
+    const city = extractCity(it.address);
+    if (!city) continue;
+    if (!idx[city]) idx[city] = [];
+    idx[city].push({
+      id: it.id,
+      address: it.address,
+      lat: it.coordinates[0],
+      lon: it.coordinates[1],
+    });
+  }
+  return idx;
+}
+
+// === Загрузка данных ===
+async function loadPvzData() {
+  const bootText = document.getElementById('bootText');
+  const dataBadge = document.getElementById('dataBadge');
+
+  // Сначала пробуем «вживую» с сервера WB
+  try {
+    bootText.textContent = 'Запрашиваю данные с сервера WB…';
+    const res = await fetch(WB_URL);
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const json = await res.json();
+
+    bootText.textContent = 'Парсю и индексирую точки…';
+    const ru = json.find(c => c.country === COUNTRY);
+    if (!ru || !ru.items) throw new Error('Нет данных по стране ' + COUNTRY);
+
+    state.cityIndex = buildIndex(ru.items);
+    dataBadge.textContent = '🟢 живые данные WB';
+    finishBoot();
+    return;
+  } catch (e) {
+    console.warn('Не удалось загрузить с WB напрямую:', e);
+    bootText.textContent = 'Сервер WB недоступен из браузера (CORS). Использую локальный кэш…';
+  }
+
+  // Фолбэк: локальный pvz-data.js (он же — тот же файл, но скачанный заранее)
+  await new Promise((resolve, reject) => {
+    const s = document.createElement('script');
+    s.src = 'pvz-data.js';
+    s.onload = resolve;
+    s.onerror = () => reject(new Error('pvz-data.js не найден рядом с shop.html'));
+    document.head.appendChild(s);
+  }).catch(e => {
+    bootText.innerHTML = `<span style="color:#dc2626;">Ошибка: ${e.message}</span>`;
+    throw e;
+  });
+
+  // window.PVZ_DATA — это уже сгруппированный по городам индекс
+  state.cityIndex = window.PVZ_DATA;
+  dataBadge.textContent = '📁 локальный кэш';
+  dataBadge.classList.add('local');
+  finishBoot();
+}
+
+function finishBoot() {
+  // Готовим отсортированный список городов
+  state.cityList = Object.entries(state.cityIndex)
+    .map(([name, pts]) => ({ name, count: pts.length }))
+    .sort((a, b) => b.count - a.count);
+
+  // Заполняем datalist для инпута города (топ-500 — больше браузер всё равно скроет)
+  const dl = document.getElementById('citiesList');
+  state.cityList.slice(0, 500).forEach(c => {
+    const opt = document.createElement('option');
+    opt.value = c.name;
+    opt.label = `${c.count} ПВЗ`;
+    dl.appendChild(opt);
+  });
+
+  document.getElementById('bootLoader').classList.add('hidden');
+}
+
+// === Рендер каталога ===
+const productsGrid = document.getElementById('productsGrid');
+products.forEach(p => {
+  const card = document.createElement('div');
+  card.className = 'product';
+  card.innerHTML = `
+    <div class="product-image">${p.emoji}</div>
+    <div class="product-name">${p.name}</div>
+    <div class="product-desc">${p.desc}</div>
+    <div class="product-bottom">
+      <div class="product-price">${p.price.toLocaleString('ru-RU')} ₽</div>
+      <button class="add-btn" data-id="${p.id}">В корзину</button>
+    </div>
+  `;
+  productsGrid.appendChild(card);
+});
+
+// === Корзина ===
+function addToCart(id) {
+  state.cart[id] = (state.cart[id] || 0) + 1;
+  updateCartUI();
+  const btn = document.querySelector(`.add-btn[data-id="${id}"]`);
+  btn.textContent = 'Добавлено ✓';
+  btn.classList.add('added');
+  setTimeout(() => { btn.textContent = 'В корзину'; btn.classList.remove('added'); }, 1000);
+}
+function changeQty(id, delta) {
+  state.cart[id] = (state.cart[id] || 0) + delta;
+  if (state.cart[id] <= 0) delete state.cart[id];
+  updateCartUI();
+  renderCart();
+}
+function cartTotal() {
+  return Object.entries(state.cart).reduce((sum, [id, qty]) => {
+    const p = products.find(p => p.id == id);
+    return sum + p.price * qty;
+  }, 0);
+}
+function cartCount() { return Object.values(state.cart).reduce((s, q) => s + q, 0); }
+function updateCartUI() { document.getElementById('cartCount').textContent = cartCount(); }
+
+function renderCart() {
+  const body = document.getElementById('cartBody');
+  const footer = document.getElementById('cartFooter');
+  const items = Object.entries(state.cart);
+  if (items.length === 0) {
+    body.innerHTML = '<div class="cart-empty">Корзина пуста<br><small>Добавьте товары из каталога</small></div>';
+    footer.innerHTML = '';
+    return;
+  }
+  body.innerHTML = items.map(([id, qty]) => {
+    const p = products.find(p => p.id == id);
+    return `
+      <div class="cart-item">
+        <div class="cart-item-info">
+          <div class="cart-item-emoji">${p.emoji}</div>
+          <div>
+            <div class="cart-item-name">${p.name}</div>
+            <div style="font-size:13px;color:var(--text-muted);">${p.price.toLocaleString('ru-RU')} ₽</div>
+          </div>
+        </div>
+        <div class="cart-item-controls">
+          <button class="qty-btn" onclick="changeQty(${id}, -1)">−</button>
+          <span class="qty">${qty}</span>
+          <button class="qty-btn" onclick="changeQty(${id}, 1)">+</button>
+        </div>
+      </div>
+    `;
+  }).join('');
+  footer.innerHTML = `
+    <div class="cart-total"><span>Итого:</span><span>${cartTotal().toLocaleString('ru-RU')} ₽</span></div>
+    <button class="checkout-btn" onclick="openCheckout()">Перейти к оформлению</button>
+  `;
+}
+
+function openModal(id) { document.getElementById(id).classList.add('show'); }
+function closeModal(id) { document.getElementById(id).classList.remove('show'); }
+
+document.getElementById('cartBtn').onclick = () => { renderCart(); openModal('cartOverlay'); };
+document.querySelectorAll('[data-close]').forEach(b => {
+  b.onclick = (e) => e.target.closest('.overlay').classList.remove('show');
+});
+document.querySelectorAll('.overlay').forEach(o => {
+  o.onclick = (e) => { if (e.target === o) o.classList.remove('show'); };
+});
+productsGrid.onclick = (e) => {
+  if (e.target.matches('.add-btn')) addToCart(+e.target.dataset.id);
+};
+
+// === Чекаут ===
+function openCheckout() {
+  closeModal('cartOverlay');
+  openModal('checkoutOverlay');
+  validateCheckout();
+}
+
+const cityInput = document.getElementById('cityInput');
+const pvzSelect = document.getElementById('pvzSelect');
+const pvzInfo = document.getElementById('pvzInfo');
+
+cityInput.oninput = onCityChange;
+cityInput.onchange = onCityChange;
+
+function onCityChange() {
+  const city = cityInput.value.trim();
+  // Точное совпадение с известным городом?
+  const match = state.cityIndex[city] ? city : null;
+  state.selectedCity = match;
+  state.selectedPvz = null;
+
+  if (!match) {
+    pvzSelect.disabled = true;
+    pvzSelect.innerHTML = '<option value="">Сначала выберите город из подсказок</option>';
+    pvzInfo.style.display = 'none';
+    validateCheckout();
+    return;
+  }
+
+  // Заполняем дропдаун ПВЗ
+  const points = state.cityIndex[match];
+  pvzSelect.disabled = false;
+  pvzSelect.innerHTML = `<option value="">— выберите пункт выдачи (${points.length} шт) —</option>` +
+    points.map(p => `<option value="${p.id}">${escapeHtml(p.address)}</option>`).join('');
+  pvzInfo.style.display = 'none';
+  validateCheckout();
+}
+
+pvzSelect.onchange = () => {
+  const id = pvzSelect.value;
+  if (!id) {
+    state.selectedPvz = null;
+    pvzInfo.style.display = 'none';
+    validateCheckout();
+    return;
+  }
+  const points = state.cityIndex[state.selectedCity];
+  const pvz = points.find(p => String(p.id) === String(id));
+  if (!pvz) return;
+  state.selectedPvz = { ...pvz, city: state.selectedCity };
+  pvzInfo.style.display = 'block';
+  pvzInfo.innerHTML = `
+    <b>ID точки в WB:</b> ${pvz.id}<br>
+    <b>Координаты:</b> ${pvz.lat.toFixed(5)}, ${pvz.lon.toFixed(5)}<br>
+    <b>Адрес:</b> ${escapeHtml(pvz.address)}
+  `;
+  validateCheckout();
+};
+
+document.getElementById('recipientName').oninput = validateCheckout;
+document.getElementById('recipientPhone').oninput = validateCheckout;
+
+function validateCheckout() {
+  const name = document.getElementById('recipientName').value.trim();
+  const phone = document.getElementById('recipientPhone').value.trim();
+  const valid = name.length >= 2 && phone.length >= 10 && state.selectedPvz;
+  document.getElementById('placeOrderBtn').disabled = !valid;
+}
+
+document.getElementById('placeOrderBtn').onclick = placeOrder;
+
+function placeOrder() {
+  closeModal('checkoutOverlay');
+  const name = document.getElementById('recipientName').value;
+  const phone = document.getElementById('recipientPhone').value;
+  const items = Object.entries(state.cart).map(([id, qty]) => {
+    const p = products.find(p => p.id == id);
+    return `${p.name} × ${qty}`;
+  });
+  const total = cartTotal();
+  document.getElementById('successBody').innerHTML = `
+    <div class="check">✓</div>
+    <h2>Заказ оформлен!</h2>
+    <p>Это демо — оплата не настоящая.</p>
+    <div class="success-summary">
+      <div class="summary-row"><span>Получатель:</span><strong>${escapeHtml(name)}</strong></div>
+      <div class="summary-row"><span>Телефон:</span><strong>${escapeHtml(phone)}</strong></div>
+      <div class="summary-row"><span>Город:</span><strong>${escapeHtml(state.selectedPvz.city)}</strong></div>
+      <div class="summary-row"><span>ПВЗ:</span><strong>${escapeHtml(state.selectedPvz.address)}</strong></div>
+      <div class="summary-row"><span>ID точки WB:</span><strong>${state.selectedPvz.id}</strong></div>
+      <div class="summary-row"><span>Товары:</span><strong>${items.join('<br>')}</strong></div>
+      <div class="summary-row" style="border-top:1px solid var(--border);margin-top:8px;padding-top:12px;font-size:18px;">
+        <span>Итого:</span><strong>${total.toLocaleString('ru-RU')} ₽</strong>
+      </div>
+    </div>
+    <p style="font-size:13px;">Дальше в реальной схеме — вы вручную в приложении WB оформляете WB&nbsp;Track на этот ID.</p>
+    <button class="checkout-btn" style="margin-top:20px;" onclick="resetDemo()">К каталогу</button>
+  `;
+  openModal('successOverlay');
+}
+
+function resetDemo() {
+  state.cart = {};
+  state.selectedPvz = null;
+  state.selectedCity = null;
+  document.getElementById('recipientName').value = '';
+  document.getElementById('recipientPhone').value = '';
+  document.getElementById('cityInput').value = '';
+  pvzSelect.disabled = true;
+  pvzSelect.innerHTML = '<option value="">Сначала выберите город</option>';
+  pvzInfo.style.display = 'none';
+  updateCartUI();
+  closeModal('successOverlay');
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+  }[c]));
+}
+
+updateCartUI();
+loadPvzData();
+</script>
+</body>
+</html>
