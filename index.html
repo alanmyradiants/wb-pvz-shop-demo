@@ -26,7 +26,6 @@
   }
   .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
 
-  /* Загрузка стартовая */
   .boot-loader {
     position: fixed;
     inset: 0;
@@ -40,8 +39,7 @@
   }
   .boot-loader.hidden { display: none; }
   .spinner {
-    width: 40px;
-    height: 40px;
+    width: 40px; height: 40px;
     border: 4px solid var(--border);
     border-top-color: var(--primary);
     border-radius: 50%;
@@ -61,7 +59,6 @@
     word-break: break-all;
   }
 
-  /* Header */
   header {
     background: var(--surface);
     border-bottom: 1px solid var(--border);
@@ -77,12 +74,7 @@
     max-width: 1200px;
     margin: 0 auto;
   }
-  .logo {
-    font-size: 22px;
-    font-weight: 700;
-    color: var(--primary);
-    letter-spacing: -0.5px;
-  }
+  .logo { font-size: 22px; font-weight: 700; color: var(--primary); letter-spacing: -0.5px; }
   .logo span { color: var(--text); }
   .data-badge {
     font-size: 11px;
@@ -95,45 +87,24 @@
   }
   .data-badge.local { background: #fef3c7; color: var(--warning); }
   .cart-btn {
-    background: var(--primary);
-    color: white;
-    border: none;
-    padding: 10px 18px;
-    border-radius: 12px;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    background: var(--primary); color: white; border: none;
+    padding: 10px 18px; border-radius: 12px;
+    font-size: 15px; font-weight: 600; cursor: pointer;
+    display: flex; align-items: center; gap: 8px;
     transition: background 0.2s;
   }
   .cart-btn:hover { background: var(--primary-dark); }
   .cart-count {
-    background: white;
-    color: var(--primary);
-    border-radius: 999px;
-    min-width: 22px;
-    height: 22px;
-    padding: 0 6px;
-    font-size: 13px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
+    background: white; color: var(--primary);
+    border-radius: 999px; min-width: 22px; height: 22px;
+    padding: 0 6px; font-size: 13px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
   }
 
-  /* Hero */
   .hero { padding: 50px 20px 30px; text-align: center; }
-  .hero h1 {
-    font-size: 38px;
-    font-weight: 800;
-    letter-spacing: -1px;
-    margin-bottom: 12px;
-  }
+  .hero h1 { font-size: 38px; font-weight: 800; letter-spacing: -1px; margin-bottom: 12px; }
   .hero p { font-size: 17px; color: var(--text-muted); max-width: 540px; margin: 0 auto; }
 
-  /* Products */
   .products {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -146,79 +117,57 @@
     padding: 24px;
     box-shadow: var(--shadow);
     transition: transform 0.2s, box-shadow 0.2s;
-    display: flex;
-    flex-direction: column;
+    display: flex; flex-direction: column;
   }
   .product:hover { transform: translateY(-4px); box-shadow: 0 8px 30px rgba(0,0,0,0.1); }
   .product-image {
-    font-size: 80px;
-    text-align: center;
-    margin-bottom: 16px;
+    font-size: 80px; text-align: center; margin-bottom: 16px;
     background: linear-gradient(135deg, #fce4ec 0%, #f3e5f5 100%);
-    border-radius: 12px;
-    padding: 30px 0;
+    border-radius: 12px; padding: 30px 0;
   }
   .product-name { font-size: 17px; font-weight: 600; margin-bottom: 6px; }
   .product-desc { font-size: 14px; color: var(--text-muted); margin-bottom: 16px; flex-grow: 1; }
   .product-bottom { display: flex; justify-content: space-between; align-items: center; margin-top: auto; }
   .product-price { font-size: 20px; font-weight: 700; }
   .add-btn {
-    background: var(--text);
-    color: white;
-    border: none;
-    padding: 10px 16px;
-    border-radius: 10px;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: 600;
+    background: var(--text); color: white; border: none;
+    padding: 10px 16px; border-radius: 10px;
+    cursor: pointer; font-size: 14px; font-weight: 600;
     transition: background 0.2s;
   }
   .add-btn:hover { background: var(--primary); }
   .add-btn.added { background: var(--success); }
 
-  /* Modal */
   .overlay {
     position: fixed; inset: 0;
     background: rgba(0,0,0,0.5);
     display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 200;
-    padding: 20px;
+    align-items: center; justify-content: center;
+    z-index: 200; padding: 20px;
   }
   .overlay.show { display: flex; }
   .modal {
     background: var(--surface);
     border-radius: 20px;
-    width: 100%;
-    max-width: 560px;
-    max-height: 90vh;
+    width: 100%; max-width: 560px; max-height: 90vh;
     overflow: hidden;
-    display: flex;
-    flex-direction: column;
+    display: flex; flex-direction: column;
   }
   .modal-header {
     padding: 24px 28px 16px;
     border-bottom: 1px solid var(--border);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    display: flex; justify-content: space-between; align-items: center;
   }
   .modal-title { font-size: 20px; font-weight: 700; }
   .modal-close {
-    background: none;
-    border: none;
-    font-size: 28px;
-    cursor: pointer;
-    color: var(--text-muted);
-    line-height: 1;
-    padding: 0 4px;
+    background: none; border: none; font-size: 28px;
+    cursor: pointer; color: var(--text-muted);
+    line-height: 1; padding: 0 4px;
   }
   .modal-close:hover { color: var(--text); }
   .modal-body { padding: 24px 28px; overflow-y: auto; flex-grow: 1; }
   .modal-footer { padding: 20px 28px; border-top: 1px solid var(--border); background: #fafafc; }
 
-  /* Cart */
   .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--border); }
   .cart-item:last-child { border-bottom: none; }
   .cart-item-info { display: flex; gap: 12px; align-items: center; }
@@ -226,114 +175,55 @@
   .cart-item-name { font-weight: 500; font-size: 15px; }
   .cart-item-controls { display: flex; align-items: center; gap: 12px; }
   .qty-btn {
-    background: var(--bg);
-    border: 1px solid var(--border);
-    width: 28px; height: 28px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 16px;
-    line-height: 1;
+    background: var(--bg); border: 1px solid var(--border);
+    width: 28px; height: 28px; border-radius: 6px;
+    cursor: pointer; font-size: 16px; line-height: 1;
   }
   .qty { font-weight: 600; min-width: 20px; text-align: center; }
   .cart-empty { text-align: center; padding: 40px 0; color: var(--text-muted); }
-  .cart-total {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 16px;
-    font-size: 18px;
-    font-weight: 700;
-  }
+  .cart-total { display: flex; justify-content: space-between; margin-bottom: 16px; font-size: 18px; font-weight: 700; }
   .checkout-btn {
     width: 100%;
-    background: var(--primary);
-    color: white;
-    border: none;
-    padding: 14px;
-    border-radius: 12px;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
+    background: var(--primary); color: white; border: none;
+    padding: 14px; border-radius: 12px;
+    font-size: 16px; font-weight: 600; cursor: pointer;
     transition: background 0.2s;
   }
   .checkout-btn:hover { background: var(--primary-dark); }
   .checkout-btn:disabled { background: #ccc; cursor: not-allowed; }
 
-  /* Form */
   .form-group { margin-bottom: 18px; }
-  .form-group label {
-    display: block;
-    font-size: 14px;
-    font-weight: 600;
-    margin-bottom: 6px;
-    color: var(--text-muted);
-  }
-  .form-group input,
-  .form-group select {
-    width: 100%;
-    padding: 12px 14px;
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    font-size: 15px;
-    font-family: inherit;
-    background: white;
-    color: var(--text);
+  .form-group label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px; color: var(--text-muted); }
+  .form-group input, .form-group select {
+    width: 100%; padding: 12px 14px;
+    border: 1px solid var(--border); border-radius: 10px;
+    font-size: 15px; font-family: inherit;
+    background: white; color: var(--text);
     transition: border-color 0.2s;
-    -webkit-appearance: none;
-    appearance: none;
+    -webkit-appearance: none; appearance: none;
   }
   .form-group select {
     background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3e%3cpath fill='%236b6b80' d='M6 8L0 0h12z'/%3e%3c/svg%3e");
-    background-repeat: no-repeat;
-    background-position: right 14px center;
-    background-size: 12px 8px;
-    padding-right: 40px;
-    cursor: pointer;
+    background-repeat: no-repeat; background-position: right 14px center;
+    background-size: 12px 8px; padding-right: 40px; cursor: pointer;
   }
-  .form-group input:focus,
-  .form-group select:focus {
-    outline: none;
-    border-color: var(--primary);
-  }
-  .form-group select:disabled {
-    background-color: #f5f5f7;
-    color: var(--text-muted);
-    cursor: not-allowed;
-  }
+  .form-group input:focus, .form-group select:focus { outline: none; border-color: var(--primary); }
+  .form-group select:disabled { background-color: #f5f5f7; color: var(--text-muted); cursor: not-allowed; }
   .form-hint { font-size: 12px; color: var(--text-muted); margin-top: 6px; }
   .pvz-info {
-    margin-top: 8px;
-    padding: 10px 12px;
-    background: #f0f9ff;
-    border-radius: 8px;
-    font-size: 12px;
-    color: var(--text-muted);
+    margin-top: 8px; padding: 10px 12px;
+    background: #f0f9ff; border-radius: 8px;
+    font-size: 12px; color: var(--text-muted);
     font-family: ui-monospace, monospace;
   }
   .pvz-info b { color: var(--text); }
 
-  /* Success */
   .success-screen { text-align: center; padding: 40px 20px; }
-  .success-screen .check {
-    font-size: 64px;
-    color: var(--success);
-    margin-bottom: 20px;
-  }
+  .success-screen .check { font-size: 64px; color: var(--success); margin-bottom: 20px; }
   .success-screen h2 { font-size: 24px; margin-bottom: 12px; }
   .success-screen p { color: var(--text-muted); margin-bottom: 8px; }
-  .success-summary {
-    background: var(--bg);
-    padding: 20px;
-    border-radius: 12px;
-    margin: 24px 0;
-    text-align: left;
-  }
-  .summary-row {
-    display: flex;
-    justify-content: space-between;
-    padding: 6px 0;
-    font-size: 14px;
-    gap: 16px;
-  }
+  .success-summary { background: var(--bg); padding: 20px; border-radius: 12px; margin: 24px 0; text-align: left; }
+  .summary-row { display: flex; justify-content: space-between; padding: 6px 0; font-size: 14px; gap: 16px; }
   .summary-row strong { font-weight: 600; text-align: right; }
 
   @media (max-width: 600px) {
@@ -344,7 +234,6 @@
 </head>
 <body>
 
-<!-- Стартовая загрузка данных ПВЗ -->
 <div class="boot-loader" id="bootLoader">
   <div class="spinner"></div>
   <div class="boot-text" id="bootText">Загружаю базу ПВЗ Wildberries…</div>
@@ -366,11 +255,9 @@
     <h1>Закажи и забери в ПВЗ Wildberries</h1>
     <p>Выберите товар, оформите заказ и заберите в любом из 32 000+ пунктов выдачи Wildberries по всей России</p>
   </section>
-
   <section class="products" id="productsGrid"></section>
 </div>
 
-<!-- Корзина -->
 <div class="overlay" id="cartOverlay">
   <div class="modal">
     <div class="modal-header">
@@ -382,7 +269,6 @@
   </div>
 </div>
 
-<!-- Оформление -->
 <div class="overlay" id="checkoutOverlay">
   <div class="modal">
     <div class="modal-header">
@@ -418,7 +304,6 @@
   </div>
 </div>
 
-<!-- Успех -->
 <div class="overlay" id="successOverlay">
   <div class="modal">
     <div class="modal-body success-screen" id="successBody"></div>
@@ -426,7 +311,6 @@
 </div>
 
 <script>
-// === Каталог товаров ===
 const products = [
   { id: 1, name: 'Футболка хлопок', desc: 'Базовая футболка из 100% хлопка', price: 1990, emoji: '👕' },
   { id: 2, name: 'Кружка керамика', desc: 'Объём 350 мл, дизайн на выбор', price: 690, emoji: '☕' },
@@ -436,11 +320,13 @@ const products = [
   { id: 6, name: 'Стикерпак', desc: '20 виниловых стикеров', price: 290, emoji: '🎨' },
 ];
 
-// === Состояние ===
 const state = {
   cart: {},
-  cityIndex: {},   // {cityName: [points]}
-  cityList: [],    // [{name, count}] отсортированный
+  mode: null,
+  cityCounts: {},
+  cityBuckets: {},
+  cityPoints: {},
+  cityList: [],
   selectedPvz: null,
   selectedCity: null,
 };
@@ -448,24 +334,37 @@ const state = {
 const WB_URL = 'https://static-basket-01.wb.ru/vol0/data/all-poo-fr-v8.json';
 const COUNTRY = 'ru';
 
-// === Парсинг адреса для извлечения города ===
+const FEDERAL = ['Москва', 'Санкт-Петербург', 'Севастополь'];
+const REGION_RE = /(республика|край|область|округ|автономн|обл\.|обл\s|обл,)/i;
+const COUNTRY_RE = /^(россия|российская федерация|рф)\.?$/i;
+const G_PREFIX_RE = /^г\.?\s+/i;
+const CITY_PREFIX_RE = /^(г\.|город\s+|г\s+|пос\.?\s+|с\.\s+|д\.\s+|село\s+|деревня\s+)/i;
+
 function extractCity(address) {
   if (!address) return null;
-  const parts = address.split(',').map(s => s.trim());
+  let parts = address.split(',').map(s => s.trim());
   if (parts.length < 2) return null;
-  // Москва/СПб/Севастополь часто идут первым элементом
-  const fed = parts[0].replace(/^г\.\s*/, '');
-  if (['Москва', 'Санкт-Петербург', 'Севастополь'].includes(fed)) return fed;
-  // Иначе — второй элемент, чистим префикс "г."
-  return parts[1].replace(/^(г\.|город\s+|г\s+)/i, '').trim();
+  if (COUNTRY_RE.test(parts[0])) {
+    parts = parts.slice(1);
+    if (parts.length < 2) return null;
+  }
+  let p0 = parts[0];
+  if (p0.includes('(') || G_PREFIX_RE.test(p0)) {
+    let city = p0.replace(G_PREFIX_RE, '');
+    city = city.replace(/\s*\([^)]*\)\s*/g, '').trim();
+    return city.replace(CITY_PREFIX_RE, '').trim() || null;
+  }
+  if (FEDERAL.includes(p0)) return p0;
+  if (!REGION_RE.test(p0)) return p0.replace(CITY_PREFIX_RE, '').trim() || null;
+  return parts[1].replace(CITY_PREFIX_RE, '').trim() || null;
 }
 
-function buildIndex(items) {
+function buildIndexFromItems(items) {
   const idx = {};
   for (const it of items) {
     if (!it.address || !it.coordinates) continue;
     const city = extractCity(it.address);
-    if (!city) continue;
+    if (!city || city.length < 2) continue;
     if (!idx[city]) idx[city] = [];
     idx[city].push({
       id: it.id,
@@ -477,57 +376,81 @@ function buildIndex(items) {
   return idx;
 }
 
-// === Загрузка данных ===
+function loadScript(src) {
+  return new Promise((resolve, reject) => {
+    const s = document.createElement('script');
+    s.src = src;
+    s.onload = resolve;
+    s.onerror = () => reject(new Error('Не загрузился ' + src));
+    document.head.appendChild(s);
+  });
+}
+
 async function loadPvzData() {
   const bootText = document.getElementById('bootText');
   const dataBadge = document.getElementById('dataBadge');
 
-  // Сначала пробуем «вживую» с сервера WB
+  // 1. Пробуем «вживую» с сервера WB
   try {
     bootText.textContent = 'Запрашиваю данные с сервера WB…';
     const res = await fetch(WB_URL);
     if (!res.ok) throw new Error('HTTP ' + res.status);
     const json = await res.json();
-
-    bootText.textContent = 'Парсю и индексирую точки…';
     const ru = json.find(c => c.country === COUNTRY);
     if (!ru || !ru.items) throw new Error('Нет данных по стране ' + COUNTRY);
 
-    state.cityIndex = buildIndex(ru.items);
+    bootText.textContent = 'Индексирую точки…';
+    state.cityPoints = buildIndexFromItems(ru.items);
+    state.cityCounts = Object.fromEntries(
+      Object.entries(state.cityPoints).map(([c, pts]) => [c, pts.length])
+    );
+    state.mode = 'live';
     dataBadge.textContent = '🟢 живые данные WB';
     finishBoot();
     return;
   } catch (e) {
     console.warn('Не удалось загрузить с WB напрямую:', e);
-    bootText.textContent = 'Сервер WB недоступен из браузера (CORS). Использую локальный кэш…';
+    bootText.textContent = 'Сервер WB недоступен. Загружаю локальный индекс…';
   }
 
-  // Фолбэк: локальный pvz-data.js (он же — тот же файл, но скачанный заранее)
-  await new Promise((resolve, reject) => {
-    const s = document.createElement('script');
-    s.src = 'pvz-data.js';
-    s.onload = resolve;
-    s.onerror = () => reject(new Error('pvz-data.js не найден рядом с shop.html'));
-    document.head.appendChild(s);
-  }).catch(e => {
-    bootText.innerHTML = `<span style="color:#dc2626;">Ошибка: ${e.message}</span>`;
-    throw e;
-  });
-
-  // window.PVZ_DATA — это уже сгруппированный по городам индекс
-  state.cityIndex = window.PVZ_DATA;
-  dataBadge.textContent = '📁 локальный кэш';
+  // 2. Фолбэк: локальный split с ленивой загрузкой бакетов
+  try {
+    await loadScript('data/index.js');
+  } catch (e) {
+    bootText.innerHTML = '<span style="color:#dc2626;">Не удалось загрузить data/index.js. Запустите python scripts/parse_wb_pvz.py чтобы сгенерировать данные.</span>';
+    return;
+  }
+  for (const [city, bids, count] of window.PVZ_INDEX) {
+    state.cityCounts[city] = count;
+    state.cityBuckets[city] = bids;
+  }
+  state.mode = 'lazy';
+  dataBadge.textContent = '📁 локальный кэш (lazy)';
   dataBadge.classList.add('local');
   finishBoot();
 }
 
-function finishBoot() {
-  // Готовим отсортированный список городов
-  state.cityList = Object.entries(state.cityIndex)
-    .map(([name, pts]) => ({ name, count: pts.length }))
-    .sort((a, b) => b.count - a.count);
+async function getCityPoints(city) {
+  if (state.cityPoints[city]) return state.cityPoints[city];
+  if (state.mode !== 'lazy') return [];
+  const bids = state.cityBuckets[city] || [];
+  await Promise.all(bids.map(bid => {
+    if (window.PVZ_BUCKETS && window.PVZ_BUCKETS[bid]) return Promise.resolve();
+    return loadScript(`data/${bid}.js`);
+  }));
+  const all = [];
+  for (const bid of bids) {
+    const bucket = window.PVZ_BUCKETS && window.PVZ_BUCKETS[bid];
+    if (bucket && bucket[city]) all.push(...bucket[city]);
+  }
+  state.cityPoints[city] = all;
+  return all;
+}
 
-  // Заполняем datalist для инпута города (топ-500 — больше браузер всё равно скроет)
+function finishBoot() {
+  state.cityList = Object.entries(state.cityCounts)
+    .map(([name, count]) => ({ name, count }))
+    .sort((a, b) => b.count - a.count);
   const dl = document.getElementById('citiesList');
   state.cityList.slice(0, 500).forEach(c => {
     const opt = document.createElement('option');
@@ -535,11 +458,9 @@ function finishBoot() {
     opt.label = `${c.count} ПВЗ`;
     dl.appendChild(opt);
   });
-
   document.getElementById('bootLoader').classList.add('hidden');
 }
 
-// === Рендер каталога ===
 const productsGrid = document.getElementById('productsGrid');
 products.forEach(p => {
   const card = document.createElement('div');
@@ -556,7 +477,6 @@ products.forEach(p => {
   productsGrid.appendChild(card);
 });
 
-// === Корзина ===
 function addToCart(id) {
   state.cart[id] = (state.cart[id] || 0) + 1;
   updateCartUI();
@@ -628,7 +548,6 @@ productsGrid.onclick = (e) => {
   if (e.target.matches('.add-btn')) addToCart(+e.target.dataset.id);
 };
 
-// === Чекаут ===
 function openCheckout() {
   closeModal('cartOverlay');
   openModal('checkoutOverlay');
@@ -642,10 +561,9 @@ const pvzInfo = document.getElementById('pvzInfo');
 cityInput.oninput = onCityChange;
 cityInput.onchange = onCityChange;
 
-function onCityChange() {
+async function onCityChange() {
   const city = cityInput.value.trim();
-  // Точное совпадение с известным городом?
-  const match = state.cityIndex[city] ? city : null;
+  const match = state.cityCounts[city] ? city : null;
   state.selectedCity = match;
   state.selectedPvz = null;
 
@@ -657,8 +575,11 @@ function onCityChange() {
     return;
   }
 
-  // Заполняем дропдаун ПВЗ
-  const points = state.cityIndex[match];
+  pvzSelect.disabled = true;
+  pvzSelect.innerHTML = '<option value="">Загружаю точки…</option>';
+  const points = await getCityPoints(match);
+  if (state.selectedCity !== match) return;
+
   pvzSelect.disabled = false;
   pvzSelect.innerHTML = `<option value="">— выберите пункт выдачи (${points.length} шт) —</option>` +
     points.map(p => `<option value="${p.id}">${escapeHtml(p.address)}</option>`).join('');
@@ -674,7 +595,7 @@ pvzSelect.onchange = () => {
     validateCheckout();
     return;
   }
-  const points = state.cityIndex[state.selectedCity];
+  const points = state.cityPoints[state.selectedCity] || [];
   const pvz = points.find(p => String(p.id) === String(id));
   if (!pvz) return;
   state.selectedPvz = { ...pvz, city: state.selectedCity };
