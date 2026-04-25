@@ -27,63 +27,39 @@
   .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
 
   .boot-loader {
-    position: fixed;
-    inset: 0;
-    background: var(--bg);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-    gap: 16px;
+    position: fixed; inset: 0; background: var(--bg);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    z-index: 1000; gap: 16px;
   }
   .boot-loader.hidden { display: none; }
   .spinner {
     width: 40px; height: 40px;
-    border: 4px solid var(--border);
-    border-top-color: var(--primary);
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
+    border: 4px solid var(--border); border-top-color: var(--primary);
+    border-radius: 50%; animation: spin 1s linear infinite;
   }
   @keyframes spin { to { transform: rotate(360deg); } }
   .boot-text { color: var(--text-muted); font-size: 15px; }
   .boot-source {
-    margin-top: 24px;
-    padding: 10px 16px;
-    background: var(--surface);
-    border-radius: 8px;
-    font-size: 12px;
-    font-family: ui-monospace, monospace;
-    color: var(--text-muted);
-    max-width: 90%;
-    word-break: break-all;
+    margin-top: 24px; padding: 10px 16px;
+    background: var(--surface); border-radius: 8px;
+    font-size: 12px; font-family: ui-monospace, monospace;
+    color: var(--text-muted); max-width: 90%; word-break: break-all;
   }
 
   header {
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
-    position: sticky;
-    top: 0;
-    z-index: 100;
+    background: var(--surface); border-bottom: 1px solid var(--border);
+    position: sticky; top: 0; z-index: 100;
   }
   .header-inner {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 16px 20px;
-    max-width: 1200px;
-    margin: 0 auto;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 16px 20px; max-width: 1200px; margin: 0 auto;
   }
   .logo { font-size: 22px; font-weight: 700; color: var(--primary); letter-spacing: -0.5px; }
   .logo span { color: var(--text); }
   .data-badge {
-    font-size: 11px;
-    background: #ecfdf5;
-    color: var(--success);
-    padding: 4px 8px;
-    border-radius: 6px;
-    margin-left: 10px;
-    font-weight: 600;
+    font-size: 11px; background: #ecfdf5; color: var(--success);
+    padding: 4px 8px; border-radius: 6px; margin-left: 10px; font-weight: 600;
   }
   .data-badge.local { background: #fef3c7; color: var(--warning); }
   .cart-btn {
@@ -108,14 +84,11 @@
   .products {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 20px;
-    padding: 20px 0 60px;
+    gap: 20px; padding: 20px 0 60px;
   }
   .product {
-    background: var(--surface);
-    border-radius: 16px;
-    padding: 24px;
-    box-shadow: var(--shadow);
+    background: var(--surface); border-radius: 16px;
+    padding: 24px; box-shadow: var(--shadow);
     transition: transform 0.2s, box-shadow 0.2s;
     display: flex; flex-direction: column;
   }
@@ -139,23 +112,18 @@
   .add-btn.added { background: var(--success); }
 
   .overlay {
-    position: fixed; inset: 0;
-    background: rgba(0,0,0,0.5);
-    display: none;
-    align-items: center; justify-content: center;
+    position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+    display: none; align-items: center; justify-content: center;
     z-index: 200; padding: 20px;
   }
   .overlay.show { display: flex; }
   .modal {
-    background: var(--surface);
-    border-radius: 20px;
+    background: var(--surface); border-radius: 20px;
     width: 100%; max-width: 560px; max-height: 90vh;
-    overflow: hidden;
-    display: flex; flex-direction: column;
+    overflow: hidden; display: flex; flex-direction: column;
   }
   .modal-header {
-    padding: 24px 28px 16px;
-    border-bottom: 1px solid var(--border);
+    padding: 24px 28px 16px; border-bottom: 1px solid var(--border);
     display: flex; justify-content: space-between; align-items: center;
   }
   .modal-title { font-size: 20px; font-weight: 700; }
@@ -183,8 +151,7 @@
   .cart-empty { text-align: center; padding: 40px 0; color: var(--text-muted); }
   .cart-total { display: flex; justify-content: space-between; margin-bottom: 16px; font-size: 18px; font-weight: 700; }
   .checkout-btn {
-    width: 100%;
-    background: var(--primary); color: white; border: none;
+    width: 100%; background: var(--primary); color: white; border: none;
     padding: 14px; border-radius: 12px;
     font-size: 16px; font-weight: 600; cursor: pointer;
     transition: background 0.2s;
@@ -321,18 +288,14 @@ const products = [
 ];
 
 const state = {
-  cart: {},
-  mode: null,
-  cityCounts: {},
-  cityBuckets: {},
-  cityPoints: {},
-  cityList: [],
-  selectedPvz: null,
-  selectedCity: null,
+  cart: {}, mode: null,
+  cityCounts: {}, cityBuckets: {}, cityPoints: {},
+  cityList: [], selectedPvz: null, selectedCity: null,
 };
 
 const WB_URL = 'https://static-basket-01.wb.ru/vol0/data/all-poo-fr-v8.json';
 const COUNTRY = 'ru';
+const DATA_DIR = ''; // Пустая строка = файлы лежат в корне рядом с index.html
 
 const FEDERAL = ['Москва', 'Санкт-Петербург', 'Севастополь'];
 const REGION_RE = /(республика|край|область|округ|автономн|обл\.|обл\s|обл,)/i;
@@ -367,10 +330,8 @@ function buildIndexFromItems(items) {
     if (!city || city.length < 2) continue;
     if (!idx[city]) idx[city] = [];
     idx[city].push({
-      id: it.id,
-      address: it.address,
-      lat: it.coordinates[0],
-      lon: it.coordinates[1],
+      id: it.id, address: it.address,
+      lat: it.coordinates[0], lon: it.coordinates[1],
     });
   }
   return idx;
@@ -390,7 +351,6 @@ async function loadPvzData() {
   const bootText = document.getElementById('bootText');
   const dataBadge = document.getElementById('dataBadge');
 
-  // 1. Пробуем «вживую» с сервера WB
   try {
     bootText.textContent = 'Запрашиваю данные с сервера WB…';
     const res = await fetch(WB_URL);
@@ -413,11 +373,10 @@ async function loadPvzData() {
     bootText.textContent = 'Сервер WB недоступен. Загружаю локальный индекс…';
   }
 
-  // 2. Фолбэк: локальный split с ленивой загрузкой бакетов
   try {
-    await loadScript('data/index.js');
+    await loadScript(DATA_DIR + 'index.js');
   } catch (e) {
-    bootText.innerHTML = '<span style="color:#dc2626;">Не удалось загрузить data/index.js. Запустите python scripts/parse_wb_pvz.py чтобы сгенерировать данные.</span>';
+    bootText.innerHTML = '<span style="color:#dc2626;">Не удалось загрузить index.js. Запустите python scripts/parse_wb_pvz.py чтобы сгенерировать данные.</span>';
     return;
   }
   for (const [city, bids, count] of window.PVZ_INDEX) {
@@ -436,7 +395,7 @@ async function getCityPoints(city) {
   const bids = state.cityBuckets[city] || [];
   await Promise.all(bids.map(bid => {
     if (window.PVZ_BUCKETS && window.PVZ_BUCKETS[bid]) return Promise.resolve();
-    return loadScript(`data/${bid}.js`);
+    return loadScript(DATA_DIR + bid + '.js');
   }));
   const all = [];
   for (const bid of bids) {
